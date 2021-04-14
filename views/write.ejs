@@ -1,0 +1,110 @@
+<%- include('layout/untils')%>
+<%- include('layout/header',{title:"生成文件"})%>
+<div class="layui-nav headers">
+    <ul>
+        <li class="layui-nav-item">考勤系统</li>
+    </ul>
+</div>
+<style>
+    .w_form {
+        width: 1200px;
+        margin: 50px auto;
+    }
+
+    .queren {
+        margin-top: 30px;
+    }
+</style>
+<form class="layui-form w_form" action="">
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;margin-bottom: 50px;">
+        <legend>考勤报表生成</legend>
+    </fieldset>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">文件标题</label>
+        <div class="layui-input-block">
+            <input type="text" name="title" required lay-verify="required" placeholder="请输入标题" autocomplete="off"
+                class="layui-input title" value="">
+            <div class="layui-form-mid layui-word-aux">如：输入“阿里”，生成文件名称为“阿里 n月打卡记录”</div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">生成时间</label>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input time" id="test3" placeholder="">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">人员名单</label>
+        <div class="layui-input-block">
+            <textarea name="desc" placeholder="请输入内容" class="layui-textarea personName"><%- read%></textarea>
+            <div class="layui-form-mid layui-word-aux">请用中文逗号 "，" 隔开（小明：技术部，小白：运营部）</div>
+        </div>
+
+    </div>
+
+
+    <button type="button" class="layui-btn layui-btn-fluid queren">确认生成</button>
+</form>
+
+<%- include('layout/footer')%>
+<script>
+    // form
+    layui.use(['form', 'laydate'], function () {
+        var form = layui.form;
+        var laydate = layui.laydate;
+
+        //年月选择器
+        laydate.render({
+            elem: '#test3',
+            type: 'month',
+            value: new Date()
+        });
+    });
+
+    var filaname = localStorage.filaname;
+    if (filaname) {
+        $(".title").val(filaname)
+    }
+
+
+    // 获取确认按钮事件
+    $(".queren").click(function () {
+        if ($(".title").val() == "") {
+            return layer.msg("请输入文件标题");
+        }
+        if ($(".personName").val() == "") {
+            return layer.msg("请输入人员名单");
+        }
+        layer.confirm('确定要生成报表吗？', {
+            skin: 'layui-layer-molv',
+            btn: ['确定', '取消'] //按钮
+        }, () => {
+            var data = {
+                title: $(".title").val(),
+                personName: $(".personName").val(),
+                time: $(".time").val(),
+            }
+            localStorage.filaname = $(".title").val();
+            localStorage.personName = $(".personName").val()
+            $.ajax({
+                type: "post",
+                url: "/write",
+                data: data,
+                success: res => {
+                    console.log(res)
+                    layer.closeAll()
+                    layer.msg('已生成');
+                    setTimeout(() => {
+                        location = `/excelnew/${res.message}`
+                    }, 500)
+                }
+            });
+        });
+    })
+</script>
+<script>
+
+</script>

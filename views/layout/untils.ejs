@@ -1,0 +1,35 @@
+<% 
+    turnFn = num => {
+        const AA = new Array(
+        '日',
+        '一',
+        '二',
+        '三',
+        '四',
+        '五',
+        '六',
+        );
+        return AA[Number(num)];
+    };
+    
+    sliceFn = codestr => {
+        if(codestr.substring(0, 2) == "正常"){
+            const arr = codestr.split(" ");
+            if(arr.length>1){
+                let str = ""
+                for (let i = 0; i < arr.length; i++ ){
+                    str += " " + arr[i].slice(2)
+                }
+                codestr = str.slice(1)
+            }else{
+                codestr = codestr.slice(2)
+            }
+        }
+        return codestr
+    }
+
+    goLink = mlink => {
+        const alink = "/?id=" + mlink
+        return alink
+    }
+%>

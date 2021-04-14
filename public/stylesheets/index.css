@@ -1,0 +1,42 @@
+
+.kqtable p{
+    text-align: center;   
+    max-width: 65px;
+    min-width: 40px;
+    margin: 0 auto;
+}
+
+.kqtable td, .kqtable th {
+    padding: 9px 5px;
+}
+
+.kqbox .kqtable .zhanwei{
+    border: 0;
+    padding: 0 10px;
+}
+
+.headers{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+#uploadbox{
+    width: 600px;
+    height: 300px;
+    margin: 100px auto;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+
+.edittab{
+    width: 1200px;
+    margin: 10px auto;
+}
+
+.edittab td,.edittab th{
+    text-align: center;
+}
